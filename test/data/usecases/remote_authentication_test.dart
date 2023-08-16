@@ -4,14 +4,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 void main() {
-  test('Should call HttpClient with correct values', () async {
-    final httpClient = HttpClientSpy();
-    final url = faker.internet.httpUrl();
-    final sut = RemoteAuthentication(
+  RemoteAuthentication sut;
+  HttpClientSpy httpClient;
+  String url;
+
+  // bloco utilizado para realizar configurações que valem para todos os testes
+  setUp(() {
+    httpClient = HttpClientSpy();
+    url = faker.internet.httpUrl();
+    sut = RemoteAuthentication(
       httpClient: httpClient,
       url: url,
     );
-
+  });
+  test('Should call HttpClient with correct values', () async {
     await sut.auth();
 
     verify(httpClient.request(
