@@ -8,7 +8,7 @@ Given que o cliente informou credenciais VálidasQuando solicitar para fazer Log
 Then o sistem deve enviar o usuário para a tela de pesqusas
 And manter o usuário conectado
 
-Cenário: Credenciais Inválidas
+Scenario: Credenciais Inválidas
 Given que o cliente informou credenciais Inválidas
 When solicitar para fazer Login
 Then o sistema deve retornar uma mensagem de erro
