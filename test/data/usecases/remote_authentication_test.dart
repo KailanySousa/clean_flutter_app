@@ -12,6 +12,7 @@ void main() {
   RemoteAuthentication sut;
   HttpClientSpy httpClient;
   String url;
+  AuthenticationParams params;
 
   // bloco utilizado para realizar configurações que valem para todos os testes
   setUp(() {
@@ -21,14 +22,14 @@ void main() {
       httpClient: httpClient,
       url: url,
     );
-  });
 
-  test('Should call HttpClient with correct values', () async {
-    final params = AuthenticationParams(
+    params = AuthenticationParams(
       email: faker.internet.email(),
       secret: faker.internet.password(),
     );
+  });
 
+  test('Should call HttpClient with correct values', () async {
     await sut.auth(params);
 
     verify(httpClient.request(
@@ -46,11 +47,6 @@ void main() {
         body: anyNamed('body'),
       ),
     ).thenThrow(HttpError.badRequest);
-
-    final params = AuthenticationParams(
-      email: faker.internet.email(),
-      secret: faker.internet.password(),
-    );
 
     final future = sut.auth(params);
 
