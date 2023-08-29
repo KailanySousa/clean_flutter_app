@@ -5,7 +5,7 @@ import 'package:clean_flutter_app/domain/helpers/domain_error.dart';
 import 'package:clean_flutter_app/domain/usecases/usecases.dart';
 import 'package:meta/meta.dart';
 
-class RemoteAuthentication {
+class RemoteAuthentication implements Authentication{
   final HttpClient httpClient;
   final String url;
 
