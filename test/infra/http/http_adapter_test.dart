@@ -1,16 +1,17 @@
 import 'dart:convert';
 
+import 'package:clean_flutter_app/data/http/http.dart';
 import 'package:faker/faker.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
 
-class HttpAdapter {
+class HttpAdapter implements HttpClient {
   final Client client;
 
   HttpAdapter(this.client);
-  Future<void> request({
+  Future<Map> request({
     @required String url,
     @required String method,
     Map body,
@@ -22,11 +23,13 @@ class HttpAdapter {
 
     final jsonBody = body != null ? jsonEncode(body) : null;
 
-    await client.post(
+    final response = await client.post(
       Uri.parse(url),
       headers: headers,
       body: jsonBody,
     );
+
+    return jsonDecode(response.body);
   }
 }
 
@@ -44,6 +47,10 @@ void main() {
   });
   group('post', () {
     test('Should call post with correct values', () async {
+      when(client.post(any,
+              body: anyNamed('body'), headers: anyNamed('headers')))
+          .thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
+
       await sut
           .request(url: url, method: 'post', body: {'any_key': 'any_value'});
 
@@ -56,6 +63,10 @@ void main() {
     });
 
     test('Should call post without body', () async {
+      when(client.post(any,
+              body: anyNamed('body'), headers: anyNamed('headers')))
+          .thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
+
       await sut.request(
         url: url,
         method: 'post',
@@ -65,6 +76,18 @@ void main() {
         any,
         headers: anyNamed('headers'),
       ));
+    });
+
+    test('Should return fata if post returns 200', () async {
+      when(client.post(any, headers: anyNamed('headers')))
+          .thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
+
+      final response = await sut.request(
+        url: url,
+        method: 'post',
+      );
+
+      expect(response, {'any_key': 'any_value'});
     });
   });
 }
