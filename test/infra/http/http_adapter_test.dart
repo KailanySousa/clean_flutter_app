@@ -126,7 +126,7 @@ void main() {
         method: 'post',
       );
 
-      expect(future, throwsA(HttpError.badRequest));
+      expect(future, throwsA(HttpError.serverError));
     });
   });
 }
