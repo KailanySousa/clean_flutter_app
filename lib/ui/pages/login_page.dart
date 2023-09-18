@@ -1,3 +1,4 @@
+import 'package:clean_flutter_app/ui/components/components.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -6,42 +7,56 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              child: Image(
-                image: AssetImage('lib/ui/assets/logo.png'),
-              ),
+            LoginHeader(),
+            Headline1(
+              text: 'Login',
             ),
-            Text('Login'.toUpperCase()),
-            Form(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      icon: Icon(Icons.email),
+            Padding(
+              padding: EdgeInsets.all(32),
+              child: Form(
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        icon: Icon(
+                          Icons.email,
+                          color: Theme.of(context).primaryColorLight,
+                        ),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
                     ),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      icon: Icon(Icons.lock),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 8,
+                        bottom: 32,
+                      ),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          icon: Icon(
+                            Icons.lock,
+                            color: Theme.of(context).primaryColorLight,
+                          ),
+                        ),
+                        obscureText: true,
+                      ),
                     ),
-                    obscureText: true,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Entrar'.toUpperCase(),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Entrar'.toUpperCase(),
+                      ),
                     ),
-                  ),
-                  TextButton.icon(
-                    onPressed: () {},
-                    label: Text('Criar conta'),
-                    icon: Icon(Icons.person),
-                  )
-                ],
+                    TextButton.icon(
+                      onPressed: () {},
+                      label: Text('Criar conta'),
+                      icon: Icon(Icons.person),
+                    )
+                  ],
+                ),
               ),
             )
           ],
