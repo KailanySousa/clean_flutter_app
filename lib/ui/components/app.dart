@@ -1,9 +1,14 @@
 import 'package:clean_flutter_app/ui/pages/pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    // FIXME: definindo o modo de cor para a status bar
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
     final primaryColor = Color.fromRGBO(136, 14, 79, 1);
     final primaryDark = Color.fromRGBO(96, 0, 39, 1);
     final primaryLight = Color.fromRGBO(188, 71, 123, 1);
@@ -61,7 +66,7 @@ class App extends StatelessWidget {
         // ),
 
         // FIXME: O trecho abaixo define o estilo dos botões, quando usado ElevatedButton
-  
+
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             primary: primaryColor,
