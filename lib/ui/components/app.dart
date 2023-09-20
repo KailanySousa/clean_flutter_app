@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     // FIXME: definindo o modo de cor para a status bar
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
@@ -80,7 +79,7 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      home: LoginPage(),
+      home: LoginPage(null),
     );
   }
 }
