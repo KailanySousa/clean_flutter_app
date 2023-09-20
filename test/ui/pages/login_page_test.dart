@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('Should load with correct initial state',
-      (WidgetTester tester) async {
+  Future<void> loadPage(WidgetTester tester) async {
     final loginPage = MaterialApp(
       home: LoginPage(),
     );
+    return await tester.pumpWidget(loginPage); // iniciando componente
+  }
 
-    await tester.pumpWidget(loginPage); // iniciando componente
+  testWidgets('Should load with correct initial state',
+      (WidgetTester tester) async {
+    await loadPage(tester);
 
     /* 
       não é possível verificar se o errorText (propriedade que indica se possui erro no campo) existe
@@ -35,5 +38,10 @@ void main() {
 
     final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
     expect(button.onPressed, null);
+  });
+
+  testWidgets('Should call validate with correct values',
+      (WidgetTester tester) async {
+    await loadPage(tester);
   });
 }
