@@ -33,7 +33,9 @@ class LoginPage extends StatelessWidget {
                               Icons.email,
                               color: Theme.of(context).primaryColorLight,
                             ),
-                            errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
+                            errorText: snapshot.data?.isEmpty == true
+                                ? null
+                                : snapshot.data,
                           ),
                           keyboardType: TextInputType.emailAddress,
                           onChanged: presenter
@@ -46,18 +48,25 @@ class LoginPage extends StatelessWidget {
                         top: 8,
                         bottom: 32,
                       ),
-                      child: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Senha',
-                            icon: Icon(
-                              Icons.lock,
-                              color: Theme.of(context).primaryColorLight,
-                            ),
-                          ),
-                          obscureText: true,
-                          onChanged: presenter
-                              .validatePassword // passando ponteiro, dessa forma, pega o valor automaticamente
-                          ),
+                      child: StreamBuilder<String>(
+                          stream: presenter.passwordErrorStream,
+                          builder: (context, snapshot) {
+                            return TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Senha',
+                                  icon: Icon(
+                                    Icons.lock,
+                                    color: Theme.of(context).primaryColorLight,
+                                  ),
+                                  errorText: snapshot.data?.isEmpty == true
+                                      ? null
+                                      : snapshot.data,
+                                ),
+                                obscureText: true,
+                                onChanged: presenter
+                                    .validatePassword // passando ponteiro, dessa forma, pega o valor automaticamente
+                                );
+                          }),
                     ),
                     ElevatedButton(
                       onPressed: null,
