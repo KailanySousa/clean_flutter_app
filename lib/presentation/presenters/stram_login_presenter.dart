@@ -5,6 +5,7 @@ import 'package:clean_flutter_app/presentation/protocols/protocols.dart';
 
 class LoginState {
   String emailError;
+  bool get isFormValid => false;
 }
 
 class StreamLoginPresenter {
@@ -16,6 +17,9 @@ class StreamLoginPresenter {
   Stream<String> get emailErrorStream => _controller.stream
       .map((state) => state.emailError)
       .distinct(); // distinct não permitir emitir dois valores iguais seguidos
+
+  Stream<bool> get isFormValidStream =>
+      _controller.stream.map((state) => state.isFormValid).distinct();
 
   StreamLoginPresenter({@required this.validation});
   void validationEmail(String email) {
