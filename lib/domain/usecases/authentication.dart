@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
 
 import '../entities/entities.dart';
 
@@ -8,7 +9,7 @@ abstract class Authentication {
   );
 }
 
-class AuthenticationParams {
+class AuthenticationParams extends Equatable {
   String email;
   String secret;
 
@@ -18,4 +19,7 @@ class AuthenticationParams {
   });
 
   Map toJson() => {'email': email, 'password': secret};
+
+  @override
+  List get props => [email, secret];
 }

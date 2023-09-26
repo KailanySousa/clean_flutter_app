@@ -21,6 +21,7 @@ dev_dependencies:
   faker: 1.3.0
   http:
   provider:
+  equatable:
 
 flutter:
   uses-material-design: true
