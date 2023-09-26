@@ -1,4 +1,5 @@
 import 'package:clean_flutter_app/domain/entities/entities.dart';
+import 'package:clean_flutter_app/domain/helpers/domain_error.dart';
 import 'package:clean_flutter_app/domain/usecases/usecases.dart';
 import 'package:clean_flutter_app/presentation/presenters/presenters.dart';
 import 'package:clean_flutter_app/presentation/protocols/protocols.dart';
@@ -25,12 +26,15 @@ void main() {
     mockValidationCall(field).thenReturn(value);
   }
 
-  PostExpectation mockAuthenticationCall(String field) =>
-      when(authentication.auth(any));
+  PostExpectation mockAuthenticationCall() => when(authentication.auth(any));
 
-  void mockAuthentication({String field, String value}) {
-    mockAuthenticationCall(field)
+  void mockAuthentication() {
+    mockAuthenticationCall()
         .thenAnswer((_) async => AccountEntity(faker.guid.guid()));
+  }
+
+  void mockAuthenticationError(DomainError error) {
+    mockAuthenticationCall().thenThrow(error);
   }
 
   setUp(() {
@@ -149,6 +153,19 @@ void main() {
     sut.validatePassword(password);
 
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
+    await sut.auth();
+  });
+
+  test('Should emit correct events on InvalidCredentialsError', () async {
+    mockAuthenticationError(DomainError.invalidCredencials);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    expectLater(sut.isLoadingStream, emits(false));
+
+    sut.mainErrorStream.listen(
+        expectAsync1((error) => expect(error, 'Credenciais inválidas')));
 
     await sut.auth();
   });
